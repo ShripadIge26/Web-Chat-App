@@ -1,0 +1,13 @@
+.list {
+    flex: 1;
+    background-color: lightblue;
+    display: flex;
+    flex-direction: column;
+}
+
+/* :root {
+    --lightgrey: #F5F6FA;
+    --darkGrey: #B9BCC3;
+    --primaryBlue: #2680EB;
+    --secondGrey: #F1F2F7;
+} */
