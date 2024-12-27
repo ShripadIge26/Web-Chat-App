@@ -1,3 +1,40 @@
 .userInfo {
-    border: 1px solid red;
+  display: flex;
+  .user {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+
+    .profile-image {
+        width: 64px;
+        height: auto;
+    }
+
+    .userName {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 1rem;
+
+      .userName-head {
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+      .userName-designation {
+        color: var(--darkGrey);
+        font-size: 0.8rem;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+    .notification-indication {
+        display: flex;
+        align-items: center;
+      .notification-icon {
+        height: 22px;
+        padding: 1rem;
+      }
+    }
+  }
 }

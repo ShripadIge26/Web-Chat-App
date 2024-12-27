@@ -1,8 +1,11 @@
 .list {
     flex: 1;
-    background-color: lightblue;
+    background-color: var(--lightgrey);
     display: flex;
     flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+    height: calc(100% - 2rem);
 }
 
 /* :root {
