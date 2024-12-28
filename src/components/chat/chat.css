@@ -207,3 +207,43 @@
     }
   }
 }
+
+.top {
+  display: flex !important;
+}
+
+.user {
+  display: flex !important;
+}
+
+.icons {
+  display: flex !important;
+}
+
+.middle {
+  display: flex !important;
+}
+
+.message {
+  display: flex !important;
+}
+
+.texts {
+  display: flex !important;
+}
+.bottom {
+  display: flex !important;
+}
+.attach-wrap {
+  display: flex !important;
+}
+
+.input-wrap {
+  display: flex !important;
+}
+.emoji-wrap {
+  display: flex !important;
+}
+.send-wrap {
+  display: flex !important;
+}
