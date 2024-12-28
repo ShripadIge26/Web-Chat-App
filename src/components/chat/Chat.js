@@ -1,31 +1,86 @@
 import React, { useState, useRef, useEffect } from 'react'
 import './chat.css'
-import EmojiPicker from 'emoji-picker-react'
+import EmojiPicker from 'emoji-picker-react';
+import { init, useQuery,id } from '@instantdb/react';
+
 
 const Chat = () => {
 
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
+  const [userDet, setUserDet] = useState();
+  const [userId, setUserId] = useState('5aee05e9-b2a5-488b-bac6-2e4d58d591cb');
+  const [messages, setMessages] = useState([]);
+  const [sessionValue, setSessionValue] = useState(sessionStorage.getItem('selectedUser'));
+  
 
   const endRef = useRef(null);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({behavior: "smooth"})
-  }, [])
-
+  }, [messages])
+  const db = init({
+    // appId: "b5f1e5e3-6c9c-43e4-a00c-49155d437746", 
+    appId: "361e1b0e-f452-4bab-b460-a2a34a13cb00", 
+  });
+  
   const handleEmoji = (e) => {
     setText((prev) => prev + e.emoji)
     setOpen(false)
   }
 
+  const handleSendMessage = async () => {
+    if (!userId) return;
+  
+    const db = init({
+      appId: "361e1b0e-f452-4bab-b460-a2a34a13cb00", 
+      // appId: "b5f1e5e3-6c9c-43e4-a00c-49155d437746", 
+    });
+  
+    const message = {
+      message: text,
+      toId: userDet?.id,
+    };
+  
+    await db.transact(db.tx.chathistory[id()].update(message));
+  
+    setText("");
+  }
 
+  const { data, error } = db.useQuery({chathistory:{}});
+
+  
+
+  useEffect(() => {
+
+    if (data) {
+      setMessages(data.documents);
+    }
+  }, [data]);
+
+
+  useEffect(() => { 
+    const userDetails = sessionStorage.getItem('selectedUser');
+    if (userDetails) {
+      setUserDet(JSON.parse(userDetails)); // Update userDet state with parsed data
+    }
+    const handleStorageChange = () => {
+      setSessionValue(sessionStorage.getItem('selectedUser'));
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+  }, []);
+
+  const filterdata = data?.chathistory?.filter((d) => d.toId === userDet?.id);
+  // const userDetails = sessionStorage.getItem('selectedUser');
+// console.log(userDetails)
   return (
     <div className='chat'>
       <div className='top'>
         <div className='user'>
           <img src='images/profile-placeholder-icon.svg' className='chat-user-profile-img' />
           <div className='texts'>
-            <span className='chat-user-name'>Abhishek Talkokul</span>
+            <span className='chat-user-name'>{userDet?.username}</span>
           </div>
         </div>
         <div className='icons'>
@@ -35,74 +90,19 @@ const Chat = () => {
         </div>
       </div>
       <div className='middle'>
-        <div className='message'>
-          <img src='images/profile-placeholder-icon.svg' className='message-profile-image'/> 
-          <div className='texts'>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-            </p>
-            <span>1 min ago</span>
+        {filterdata?.map((message, index) => (
+          <div key={index} className={`message ${message.toId === userDet?.id ? 'own' : ''}`}>
+            {message.userId !== userId && (
+              <img src='images/profile-placeholder-icon.svg' className='message-profile-image'/> 
+            )}
+            <div className='texts'>
+              <p>
+                {message.message}
+              </p>
+              <span>{message.createdAt}</span>
+            </div>
           </div>
-        </div>
-        <div className='message own'>
-          <div className='texts'>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-            </p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className='message'>
-          <img src='images/profile-placeholder-icon.svg' className='message-profile-image'/> 
-          <div className='texts'>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-            </p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className='message own'>
-          <div className='texts'>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-            </p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className='message'>
-          <img src='images/profile-placeholder-icon.svg' className='message-profile-image'/> 
-          <div className='texts'>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-            </p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className='message own'>
-          <div className='texts'>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-            </p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className='message'>
-          <img src='images/profile-placeholder-icon.svg' className='message-profile-image'/> 
-          <div className='texts'>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-            </p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className='message own'>
-          <div className='texts'>
-            <p>
-              Lorem Ipsum is simply.
-            </p>
-            <span>1 min ago</span>
-          </div>
-        </div>
+        ))}
         <div ref={endRef}></div>
         
       </div>
@@ -120,10 +120,11 @@ const Chat = () => {
           </div>
         </div>
         <div className='send-wrap'>
-          <img src='images/send-icon.svg' className='send-icon' />
+          <img src='images/send-icon.svg' className='send-icon' onClick={handleSendMessage} />
         </div>
       </div>
     </div>
+    // <p>hello</p>
   )
 }
 
