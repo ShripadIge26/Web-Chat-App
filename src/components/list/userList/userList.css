@@ -8,12 +8,12 @@
   
 
   .search {
-    display: flex;
+    display: flex !important;
     padding: 1rem;
     flex-direction: column;
 
     .search-wrap {
-      display: flex;
+      display: flex !important;
     }
 
     .search-input {
@@ -33,7 +33,7 @@
     .search-icon-wrap {
       border-top-right-radius: 99em;
       border-bottom-right-radius: 99em;
-      display: flex;
+      display: flex !important;
       align-items: center;
       background-color: var(--lightgrey);
       .search-icon {
@@ -44,14 +44,14 @@
     }
   }
   .user-items {
-    display: flex;
+    display: flex !important;
     flex: 1;
     flex-direction: column;
     padding: 1rem;
     gap: 1.5rem;
 
     .item {
-      display: flex;
+      display: flex !important;
       flex: 1;
 
       .user-profile-image {
@@ -60,7 +60,7 @@
       }
 
       .texts {
-        display: flex;
+        display: flex !important;
         flex-direction: column;
         justify-content: center;
         padding-left: 1rem;
