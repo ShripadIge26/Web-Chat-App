@@ -78,22 +78,22 @@ const Chat = () => {
     <div className='chat'>
       <div className='top'>
         <div className='user'>
-          <img src='images/profile-placeholder-icon.svg' className='chat-user-profile-img' />
+          <img alt="" src='images/profile-placeholder-icon.svg' className='chat-user-profile-img' />
           <div className='texts'>
             <span className='chat-user-name'>{userDet?.username}</span>
           </div>
         </div>
         <div className='icons'>
-          <img src='images/call-icon.svg' className='call-icon' />
-          <img src='images/video-call-icon.svg' className='video-call-icon' />
-          <img src='images/more-icon.svg' className='more-icon' />
+          <img alt="" src='images/call-icon.svg' className='call-icon' />
+          <img alt="" src='images/video-call-icon.svg' className='video-call-icon' />
+          <img alt="" src='images/more-icon.svg' className='more-icon' />
         </div>
       </div>
       <div className='middle'>
         {filterdata?.map((message, index) => (
           <div key={index} className={`message ${message.toId === userDet?.id ? 'own' : ''}`}>
             {message.userId !== userId && (
-              <img src='images/profile-placeholder-icon.svg' className='message-profile-image'/> 
+              <img alt="" src='images/profile-placeholder-icon.svg' className='message-profile-image'/> 
             )}
             <div className='texts'>
               <p>
@@ -108,19 +108,19 @@ const Chat = () => {
       </div>
       <div className='bottom'>
         <div className='attach-wrap'>
-          <img src='images/attach-icon.svg' className='attach-icon' />
+          <img alt="" src='images/attach-icon.svg' className='attach-icon' />
         </div>
         <div className='input-wrap'>
           <input placeholder='Type a message...' className='message-input' value={text} onChange={(e) => setText(e.target.value)} />
         </div>
         <div className='emoji-wrap'>
-          <img src='images/emoji-icon.svg' className='emoji-icon' onClick={() => setOpen(prev => !prev)} />
+          <img alt="" src='images/emoji-icon.svg' className='emoji-icon' onClick={() => setOpen(prev => !prev)} />
           <div className='picker'>
             <EmojiPicker open={open} onEmojiClick={handleEmoji} />
           </div>
         </div>
         <div className='send-wrap'>
-          <img src='images/send-icon.svg' className='send-icon' onClick={handleSendMessage} />
+          <img alt="" src='images/send-icon.svg' className='send-icon' onClick={handleSendMessage} />
         </div>
       </div>
     </div>
